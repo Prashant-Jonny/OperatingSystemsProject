@@ -10,10 +10,9 @@ namespace GraphAssignment1
     {
         static void Main(string[] args)
         {
-            int nodeCount = 20;
-            float edgeProbability = (float)0.25;
+            int nodeCount = 40;
+            float edgeProbability = (float)0.3;
             var graph = new RandomGraph(nodeCount, edgeProbability);
-            Console.WriteLine(String.Format("Graph G has {0} vertice(s) and an edge probability of {1}", nodeCount, edgeProbability));
             graph.Print();
         }
     }

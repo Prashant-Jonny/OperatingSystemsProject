@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace GraphAssignment1
 {
@@ -79,20 +81,23 @@ namespace GraphAssignment1
 
         public void Print()
         {
-            Console.Write("\n\r\n\r[\n\r");
+            var graph = new StringBuilder(String.Format("Graph G has {0} vertice(s) and an edge probability of {1}", this.NumberOfNodes, this.EdgeProbability));
+
+            graph.Append("\r\n\r\n[\r\n");
             for (var i = 0; i < this.NumberOfNodes; i++)
             {
                 for (var j = 0; j < this.NumberOfNodes; j++)
                 {
-                    Console.Write(String.Format(" {0}", Graph[i, j]==1?"1":"_"));
+                    graph.AppendFormat(" {0}", Graph[i, j] == 1 ? "1" : "_");
                 }
-                Console.Write("\n\r");
+                graph.Append("\r\n");
             }
-            Console.Write("]\n\r\n\r");
+            graph.Append("]\r\n\r\n");
+
             var nodesAndDegree = new Dictionary<int, int>();
 
-            //string output = "\t{0}: {1}\n\r";
-            //Console.WriteLine("Vertex degree:\n\r");
+            //string output = "\t{0}: {1}";
+            //Console.WriteLine("Vertex degree:\r\n");
             for (var i = 0; i < this.NumberOfNodes; i++)
             {
                 var degree = 0;
@@ -102,27 +107,48 @@ namespace GraphAssignment1
                 }
                 nodesAndDegree.Add(i, degree);
 
-                //Console.Write(String.Format(output, i, degree));
+                //Console.WriteLine(String.Format(output, i, degree));
             }
 
-            //Console.WriteLine("\n\rVertex degree in order:\n\r");
-            var foo = nodesAndDegree.OrderBy(x => x.Value * -1).ToDictionary(pair => pair.Key, pair => pair.Value);
+            //Console.WriteLine("\r\nVertex degree in order:\r\n");
+            var sortedNodesAndDegre = nodesAndDegree.OrderBy(x => x.Value * -1).ToDictionary(pair => pair.Key, pair => pair.Value);
             //foreach (var item in foo)
             //{
-            //    Console.Write(String.Format(output, item.Key, item.Value));
+            //    Console.WriteLine(String.Format(output, item.Key, item.Value));
             //}
 
+            var sortedGraph = new StringBuilder();
 
-            Console.Write("\n\r\n\r[\n\r");
-            foreach (var item in foo.Keys)
+            sortedGraph.Append("Sorted by vertex degree\r\n\r\n[\r\n");
+            foreach (var item in sortedNodesAndDegre.Keys)
             {
-                foreach (var item2 in foo.Keys)
+                foreach (var item2 in sortedNodesAndDegre.Keys)
                 {
-                    Console.Write(String.Format(" {0}", Graph[item, item2] == 1 ? "1" : "_"));
+                    sortedGraph.AppendFormat(" {0}", Graph[item, item2] == 1 ? "1" : "_");
                 }
-                Console.Write("\n\r");
+                sortedGraph.Append("\r\n");
             }
-            Console.Write("]\n\r\n\r");
+            sortedGraph.Append("]\r\n\r\n");
+
+            using (StreamWriter file = new StreamWriter(@"C:\Users\Ajinkya\Google Drive\CSE 8355 Assignments\1v b.txt", true))
+            {
+                file.WriteLine(graph);
+                file.WriteLine(sortedGraph);
+            }
+
+            //Console.WriteLine(graph);   //  ############################################################
+            //Console.WriteLine(sortedGraph);   //  ############################################################
         }
+
+        public int GetDiameter()
+        {
+            int retVal = 0;
+
+            if (this.NumberOfNodes < 4)
+                retVal = 1;
+
+            return retVal;
+        }
+
     }
 }
