@@ -6,35 +6,53 @@ using System.Threading.Tasks;
 
 namespace OperatingSystem
 {
+    public enum QueueType
+    {
+        Ready,
+        Waiting
+    }
+
     public class ProcessQueue : IProcessQueue
     {
-        public ProcessQueue()
+        public ProcessQueue(QueueType type)
         {
-            queue = new List<ProcessControlBlock>();
+            this.type = type;
+            this.queue = new List<ProcessControlBlock>();
         }
 
         private List<ProcessControlBlock> queue;
+        private QueueType type;
 
         public void AddProcess(ProcessControlBlock process)
         {
-            queue.Add(process);
+            if (this.type == QueueType.Ready)
+                process.State = ProcessState.Ready;
+            else
+                process.State = ProcessState.Waiting;
+
+            this.queue.Add(process);
         }
 
         public void AddProcess(ProcessControlBlock process, int position)
         {
-            queue.Insert(position - 1, process);
+            if (this.type == QueueType.Ready)
+                process.State = ProcessState.Ready;
+            else
+                process.State = ProcessState.Waiting;
+
+            this.queue.Insert(position - 1, process);
         }
 
         public void DeleteProcess(int processId)
         {
-            var process = queue.Find(p => p.ProcessID == processId);
-            queue.Remove(process);
+            var process = this.queue.Find(p => p.ProcessID == processId);
+            this.queue.Remove(process);
         }
 
         public ProcessControlBlock GetNextProcess()
         {
-            var process = queue[0];
-            queue.Remove(process);
+            var process = this.queue[0];
+            this.queue.Remove(process);
 
             return process;
         }
@@ -43,9 +61,10 @@ namespace OperatingSystem
         {
             var sb = new StringBuilder();
 
-            for (var i = 1; i <= queue.Count; i++)
+            for (var i = 0; i < this.queue.Count; i++)
             {
-                sb.AppendFormat("Position: {0}\tProcess ID: {1}\n\r", i, queue[i - 1].ProcessID);
+                var process = this.queue[i];
+                sb.AppendFormat("Position: {0}\tProcess ID: {1}\tProcess State: {2}\n\r", i + 1, process.ProcessID, process.State);
             }
 
             return sb.ToString();

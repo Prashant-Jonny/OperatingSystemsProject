@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace OperatingSystem
 {
-    public class ProcessControlBlock
+    public enum ProcessState
     {
-        public enum ProcessState
-        {
-            New,
-            Ready,
-            Running,
-            Waiting,
-            Terminated
-        }
-        
+        New,
+        Ready,
+        Running,
+        Waiting,
+        Terminated
+    }
+
+    public class ProcessControlBlock
+    {        
         public ProcessState State { get; set; }
         public int ProcessID { get; set; }
         public int ProgramCounter { get; set; }
@@ -24,7 +24,7 @@ namespace OperatingSystem
         public int MemorySize { get; set; }
         public string Print()
         {
-            return String.Format("Process ID: {0}", this.ProcessID);
+            return String.Format("Process ID: {0}\n\r", this.ProcessID);
         }
     }
 }
