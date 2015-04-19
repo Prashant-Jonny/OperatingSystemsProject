@@ -41,7 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllocationStrategy.cs" />
     <Compile Include="IProcessQueue.cs" />
+    <Compile Include="MemoryManager.cs" />
     <Compile Include="ProcessControlBlock.cs" />
     <Compile Include="ProcessQueue.cs" />
     <Compile Include="Program.cs" />

@@ -45,16 +45,29 @@ namespace OperatingSystem
 
         public void DeleteProcess(int processId)
         {
-            var process = this.queue.Find(p => p.ProcessID == processId);
-            this.queue.Remove(process);
+            foreach (var p in this.queue)
+            {
+                if (p.ProcessID == processId)
+                {
+                    this.queue.Remove(p);
+                    return;
+                }
+            }
+
+            throw new ArgumentException("Invalid Process ID");
         }
 
         public ProcessControlBlock GetNextProcess()
         {
-            var process = this.queue[0];
-            this.queue.Remove(process);
+            if (this.queue.Count > 0)
+            {
+                var process = this.queue[0];
+                this.queue.Remove(process);
 
-            return process;
+                return process;
+            }
+
+            return null;
         }
 
         public string PrintQueue()
