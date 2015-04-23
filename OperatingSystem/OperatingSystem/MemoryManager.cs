@@ -14,7 +14,7 @@ namespace OperatingSystem
                 blockSizes[0] = memorySize;
 
             var blockSizeTotal = 0;
-            foreach(var blockSize in blockSizes)
+            foreach (var blockSize in blockSizes)
             {
                 blockSizeTotal += blockSize;
             }
@@ -22,36 +22,37 @@ namespace OperatingSystem
             if (blockSizeTotal != memorySize)
                 throw new Exception("Block sizes specified do not total up to memory size.");
 
-            _memory = new List<int[]>();
-            foreach(var blockSize in blockSizes)
+            Memory = new List<int[]>();
+            foreach (var blockSize in blockSizes)
             {
-                _memory.Add(new int[blockSize]);
+                this.Memory.Add(new int[blockSize]);
             }
         }
 
-        private List<int[]> _memory;
+        public List<int[]> Memory { get; set; }
 
-        public bool Allocate(int PID, AllocationStrategy strategy)
+        public void Allocate(ProcessControlBlock process, AllocationStrategy strategy)
         {
-            switch(strategy)
+            switch (strategy)
             {
                 case AllocationStrategy.FirstFit:
-                    return this.AllocateUsingFirstFit(PID);
+                    this.AllocateUsingFirstFit(process);
+                    break;
                 case AllocationStrategy.BestFit:
-                    return this.AllocateUsingBestFit(PID);
+                    this.AllocateUsingBestFit(process);
+                    break;
                 case AllocationStrategy.WorstFit:
-                    return this.AllocateUsingWorstFit(PID);
+                    this.AllocateUsingWorstFit(process);
+                    break;
             }
-
-            return false;
         }
 
         public string PrintMemory()
         {
             var sb = new StringBuilder();
-            for (var i = 0; i < _memory.Count; i++)
+            for (var i = 0; i < this.Memory.Count; i++)
             {
-                var block = _memory[i];
+                var block = Memory[i];
                 for (var j = 0; j < block.Length; j++)
                 {
                     sb.AppendFormat("{0}\t", block[j]);
@@ -62,19 +63,89 @@ namespace OperatingSystem
             return sb.ToString();
         }
 
-        private bool AllocateUsingFirstFit(int PID)
+        private void AllocateUsingFirstFit(ProcessControlBlock process)
         {
-            return false;
+            var requiredSize = process.MemorySize;
+
+            try
+            {
+                var block = Memory.First(b => b.Length >= requiredSize && b[0] == 0);
+                for (var i = 0; i < requiredSize; i++)
+                {
+                    block[i] = process.ProcessID;
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                throw new FragmentationException(String.Format("There was not a large enough empty block at time {0} to accommodate this process {1}. Program ending because of fragmentation.", OperatingSystemProgram.GetClockValue(), process.ProcessID));
+            }
+            return;
         }
 
-        private bool AllocateUsingBestFit(int PID)
+        private void AllocateUsingBestFit(ProcessControlBlock process)
         {
-            return false;
+            var requiredSize = process.MemorySize;
+
+            try
+            {
+                var blocks = Memory.FindAll(b => b.Length >= requiredSize && b[0] == 0);
+                var delta = blocks[0].Length;
+                var index = 0;
+
+                for (var i = 0; i < blocks.Count; i++)
+                {
+                    var difference = blocks[i].Length - requiredSize;
+                    if (difference < delta)
+                    {
+                        delta = difference;
+                        index = i;
+                    }
+                }
+
+                var block = blocks[index];
+                for (var i = 0; i < requiredSize; i++)
+                {
+                    block[i] = process.ProcessID;
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                throw new FragmentationException(String.Format("There was not a large enough empty block at time {0} to accommodate this process {1}. Program ending because of fragmentation.", OperatingSystemProgram.GetClockValue(), process.ProcessID));
+            }
+            return;
         }
 
-        private bool AllocateUsingWorstFit(int PID)
+        private void AllocateUsingWorstFit(ProcessControlBlock process)
         {
-            return false;
+            var requiredSize = process.MemorySize;
+
+            try
+            {
+                var blocks = Memory.FindAll(b => b.Length >= requiredSize && b[0] == 0);
+                var delta = blocks[0].Length;
+                var index = 0;
+
+                for (var i = 0; i < blocks.Count; i++)
+                {
+                    var difference = blocks[i].Length - requiredSize;
+                    if (difference > delta)
+                    {
+                        delta = difference;
+                        index = i;
+                    }
+                }
+
+                var block = blocks[index];
+                for (var i = 0; i < requiredSize; i++)
+                {
+                    block[i] = process.ProcessID;
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                throw new FragmentationException(String.Format("There was not a large enough empty block at time {0} to accommodate this process {1}. Program ending because of fragmentation.", OperatingSystemProgram.GetClockValue(), process.ProcessID));
+            }
+            return;
         }
 
         public bool Deallocate(int time)

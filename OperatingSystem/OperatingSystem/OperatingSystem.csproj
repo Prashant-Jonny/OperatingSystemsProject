@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AllocationStrategy.cs" />
+    <Compile Include="FragmentationException.cs" />
     <Compile Include="IProcessQueue.cs" />
     <Compile Include="MemoryManager.cs" />
     <Compile Include="ProcessControlBlock.cs" />

@@ -10,8 +10,65 @@ namespace OperatingSystem
     {
         public static void Main(string[] args)
         {
+            var textFromFile = ReadInputFromFile();
+            InitializeOS(textFromFile);
             Clock = 0;
 
+            var memoryManager = new MemoryManager(_memorySize, _memoryBlocks);
+
+            IncrementClock();
+            while (ReadyQueue.Length > 0)
+            {
+                var processes = ReadyQueue.GetProcessesArrivingAtTime(Clock);
+                foreach (var process in processes)
+                {
+                    try
+                    {
+                        memoryManager.Allocate(process, AllocationStrategy.FirstFit);
+                        Console.WriteLine(memoryManager.PrintMemory());
+                        Console.WriteLine(ReadyQueue.PrintQueue());
+                    }
+
+                    catch (FragmentationException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        return;
+                    }
+
+                }
+            }
+
+            Console.WriteLine(String.Format("----------------------------------\n\r\n\rFinal clock value: {0}", Clock));
+
+            //Phase1();
+        }
+
+        private static int _memorySize;
+        private static int[] _memoryBlocks;
+
+        private static void InitializeOS(string textFromFile)
+        {
+            var lines = textFromFile.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            var firstLine = lines[0];
+
+            var piecesOfFirstLine = firstLine.Split(new char[] { ' ' });
+            _memorySize = Int32.Parse(piecesOfFirstLine[0]);
+            _memoryBlocks = new int[piecesOfFirstLine.Length - 1];
+
+            for (var i = 1; i < piecesOfFirstLine.Length; i++)
+            {
+                _memoryBlocks[i - 1] = Int32.Parse(piecesOfFirstLine[i]);
+            }
+        }
+
+        private static string ReadInputFromFile()
+        {
+            var fileText = System.IO.File.ReadAllText(@"D:\Ajinkya\Code\Git Repos\OperatingSystem\OperatingSystem\data\OperatingSystemInput.txt");
+            return fileText;
+        }
+
+        private static void Phase1()
+        {
             var readyQueue = new ProcessQueue(QueueType.Ready);
             //readyQueue.GetNextProcess();
             readyQueue.AddProcess(new ProcessControlBlock(1000));
@@ -56,7 +113,7 @@ namespace OperatingSystem
             process = readyQueue.GetNextProcess();
             Console.WriteLine("\n\rNext process in the ready queue");
             Console.WriteLine(process.Print());
-            
+
             process = readyQueue.GetNextProcess();
             Console.WriteLine("\n\rNext process in the ready queue");
             Console.WriteLine(process.Print());
@@ -77,7 +134,7 @@ namespace OperatingSystem
             Console.WriteLine(waitingQueue.PrintQueue());
         }
 
-        public static int Clock { get; private set; }
+        private static int Clock { get; set; }
 
         public static int IncrementClock()
         {
@@ -100,6 +157,11 @@ namespace OperatingSystem
             {
                 _readyQueue = value;
             }
+        }
+
+        public static int GetClockValue()
+        {
+            return Clock;
         }
     }
 }

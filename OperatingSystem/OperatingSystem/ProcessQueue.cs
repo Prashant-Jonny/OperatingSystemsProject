@@ -16,40 +16,40 @@ namespace OperatingSystem
     {
         public ProcessQueue(QueueType type)
         {
-            this.type = type;
-            this.queue = new List<ProcessControlBlock>();
+            this._type = type;
+            this._queue = new List<ProcessControlBlock>();
         }
 
-        private List<ProcessControlBlock> queue;
-        private QueueType type;
+        private List<ProcessControlBlock> _queue;
+        private QueueType _type;
 
         public void AddProcess(ProcessControlBlock process)
         {
-            if (this.type == QueueType.Ready)
+            if (this._type == QueueType.Ready)
                 process.State = ProcessState.Ready;
             else
                 process.State = ProcessState.Waiting;
 
-            this.queue.Add(process);
+            this._queue.Add(process);
         }
 
         public void AddProcess(ProcessControlBlock process, int position)
         {
-            if (this.type == QueueType.Ready)
+            if (this._type == QueueType.Ready)
                 process.State = ProcessState.Ready;
             else
                 process.State = ProcessState.Waiting;
 
-            this.queue.Insert(position - 1, process);
+            this._queue.Insert(position - 1, process);
         }
 
         public void DeleteProcess(int processId)
         {
-            foreach (var p in this.queue)
+            foreach (var p in this._queue)
             {
                 if (p.ProcessID == processId)
                 {
-                    this.queue.Remove(p);
+                    this._queue.Remove(p);
                     return;
                 }
             }
@@ -59,10 +59,10 @@ namespace OperatingSystem
 
         public ProcessControlBlock GetNextProcess()
         {
-            if (this.queue.Count > 0)
+            if (this._queue.Count > 0)
             {
-                var process = this.queue[0];
-                this.queue.Remove(process);
+                var process = this._queue[0];
+                this._queue.Remove(process);
 
                 return process;
             }
@@ -70,17 +70,25 @@ namespace OperatingSystem
             return null;
         }
 
+        public IEnumerable<ProcessControlBlock> GetProcessesArrivingAtTime(int time)
+        {
+            var processes = this._queue.FindAll(p => p.StartTime == time);
+            return processes;
+        }
+
         public string PrintQueue()
         {
             var sb = new StringBuilder();
 
-            for (var i = 0; i < this.queue.Count; i++)
+            for (var i = 0; i < this._queue.Count; i++)
             {
-                var process = this.queue[i];
+                var process = this._queue[i];
                 sb.AppendFormat("Position: {0}\tProcess ID: {1}\tProcess State: {2}\n\r", i + 1, process.ProcessID, process.State);
             }
 
             return sb.ToString();
         }
+
+        public int Length { get { return this._queue.Count; } }
     }
 }
