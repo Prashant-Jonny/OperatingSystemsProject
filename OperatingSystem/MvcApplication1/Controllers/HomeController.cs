@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OperatingSystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,23 +11,22 @@ namespace MvcApplication1.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
             return View();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult AddPCB(ProcessControlBlock pcb)
         {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
+            OperatingSystemProgram.ReadyQueue.AddProcess(pcb);
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Contact()
+        [HttpPost]
+        public ActionResult StartProgram(int memorySize, AllocationStrategy strategy)
         {
-            ViewBag.Message = "Your contact page.";
 
-            return View();
+
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
     }
 }

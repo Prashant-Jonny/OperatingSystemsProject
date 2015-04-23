@@ -46,7 +46,7 @@
     <Compile Include="MemoryManager.cs" />
     <Compile Include="ProcessControlBlock.cs" />
     <Compile Include="ProcessQueue.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="OperatingSystemProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

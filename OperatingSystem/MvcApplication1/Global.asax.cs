@@ -25,7 +25,7 @@ namespace MvcApplication1
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
-            Program.Main(null);
+            OperatingSystemProgram.Main(null);
         }
     }
 }

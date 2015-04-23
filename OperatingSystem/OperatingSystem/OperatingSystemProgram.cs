@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OperatingSystem
 {
-    public class Program
+    public class OperatingSystemProgram
     {
         public static void Main(string[] args)
         {
@@ -83,6 +83,23 @@ namespace OperatingSystem
         {
             Clock++;
             return Clock;
+        }
+
+        private static ProcessQueue _readyQueue;
+        public static ProcessQueue ReadyQueue
+        {
+            get
+            {
+                if (_readyQueue == null)
+                    _readyQueue = new ProcessQueue(QueueType.Ready);
+
+                return _readyQueue;
+            }
+
+            set
+            {
+                _readyQueue = value;
+            }
         }
     }
 }
