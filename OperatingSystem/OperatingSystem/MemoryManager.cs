@@ -47,6 +47,17 @@ namespace OperatingSystem
             }
         }
 
+        public int[] GetProcessesInMemory()
+        {
+            var processes = new int[Memory.Count];
+            for (var i = 0; i < Memory.Count; i++)
+            {
+                processes[i] = Memory[i][0];
+            }
+
+            return processes;
+        }
+
         public string PrintMemory()
         {
             var sb = new StringBuilder();
@@ -143,14 +154,19 @@ namespace OperatingSystem
             }
             catch (InvalidOperationException)
             {
-                throw new FragmentationException(String.Format("There was not a large enough empty block at time {0} to accommodate this process {1}. Program ending because of fragmentation.", OperatingSystemProgram.GetClockValue(), process.ProcessID));
+                throw new FragmentationException(String.Format("There was not a large enough empty block at time {0} to accommodate process {1}. Program ending because of fragmentation.", OperatingSystemProgram.GetClockValue(), process.ProcessID));
             }
             return;
         }
 
-        public bool Deallocate(int time)
+        public bool Deallocate(int processId)
         {
-
+            for (var i = 0; i < Memory.Count; i++)
+            {
+                var block = Memory[i];
+                if (block[0] == processId)
+                    Memory[i] = new int[block.Length];
+            }
 
             return true;
         }

@@ -12,7 +12,7 @@ namespace OperatingSystem
         {
             var textFromFile = ReadInputFromFile();
             InitializeOS(textFromFile);
-            Clock = 0;
+            Clock = -1;
 
             var memoryManager = new MemoryManager(_memorySize, _memoryBlocks);
 
@@ -20,11 +20,21 @@ namespace OperatingSystem
             while (ReadyQueue.Length > 0)
             {
                 var processes = ReadyQueue.GetProcessesArrivingAtTime(Clock);
+                var processIdsOfProcessesInMemory = memoryManager.GetProcessesInMemory();
+                var processesInMemory = _allProcesses.FindAll(p => processIdsOfProcessesInMemory.Contains(p.ProcessID));
+
+                foreach(var process in processesInMemory)
+                {
+                    if (process.StartTime + process.ProcessDuration <= Clock)
+                        memoryManager.Deallocate(process.ProcessID);
+                }
+
                 foreach (var process in processes)
                 {
                     try
                     {
                         memoryManager.Allocate(process, AllocationStrategy.FirstFit);
+                        Console.WriteLine(String.Format("Clock: {0}", Clock));
                         Console.WriteLine(memoryManager.PrintMemory());
                         Console.WriteLine(ReadyQueue.PrintQueue());
                     }
@@ -34,8 +44,8 @@ namespace OperatingSystem
                         Console.WriteLine(e.Message);
                         return;
                     }
-
                 }
+                IncrementClock();
             }
 
             Console.WriteLine(String.Format("----------------------------------\n\r\n\rFinal clock value: {0}", Clock));
@@ -50,7 +60,6 @@ namespace OperatingSystem
         {
             var lines = textFromFile.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             var firstLine = lines[0];
-
             var piecesOfFirstLine = firstLine.Split(new char[] { ' ' });
             _memorySize = Int32.Parse(piecesOfFirstLine[0]);
             _memoryBlocks = new int[piecesOfFirstLine.Length - 1];
@@ -58,6 +67,23 @@ namespace OperatingSystem
             for (var i = 1; i < piecesOfFirstLine.Length; i++)
             {
                 _memoryBlocks[i - 1] = Int32.Parse(piecesOfFirstLine[i]);
+            }
+
+            _allProcesses = new List<ProcessControlBlock>();
+            for (var i = 1; i < lines.Length; i++)
+            {
+                var pieces = lines[i].Split(new string[] { "\t" }, StringSplitOptions.RemoveEmptyEntries);
+                var processId = Int32.Parse(pieces[0]);
+                var arrivalTime = Int32.Parse(pieces[1]);
+                var duration = Int32.Parse(pieces[2]);
+                var memorySize = Int32.Parse(pieces[3]);
+                var process = new ProcessControlBlock(processId);
+                process.StartTime = arrivalTime;
+                process.ProcessDuration = duration;
+                process.MemorySize = memorySize;
+
+                ReadyQueue.AddProcess(process);
+                _allProcesses.Add(process);
             }
         }
 
@@ -143,6 +169,7 @@ namespace OperatingSystem
         }
 
         private static ProcessQueue _readyQueue;
+        private static List<ProcessControlBlock> _allProcesses;
         public static ProcessQueue ReadyQueue
         {
             get
