@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OperatingSystem
 {
@@ -72,7 +70,7 @@ namespace OperatingSystem
 
         public IEnumerable<ProcessControlBlock> GetProcessesArrivingAtTime(int time)
         {
-            var processes = this._queue.FindAll(p => p.StartTime == time);
+            var processes = this._queue.FindAll(p => p.StartTime <= time);
             return processes;
         }
 
@@ -83,7 +81,7 @@ namespace OperatingSystem
             for (var i = 0; i < this._queue.Count; i++)
             {
                 var process = this._queue[i];
-                sb.AppendFormat("Position: {0}\tProcess ID: {1}\tProcess State: {2}\n\r", i + 1, process.ProcessID, process.State);
+                sb.AppendFormat("Position: {0}\tProcess ID: {1}\tMemory Size: {2}\tArrival Time: {3}\tDuration: {4}\n\r", i + 1, process.ProcessID, process.MemorySize, process.StartTime, process.ProcessDuration);
             }
 
             return sb.ToString();
