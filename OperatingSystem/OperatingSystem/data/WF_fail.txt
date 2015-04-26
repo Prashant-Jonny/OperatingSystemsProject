@@ -1,0 +1,73 @@
+Initializing operating system
+Total memory size: 16
+Memory allocation strategy: WorstFit
+Block sizes:    3       5       8
+
+
+Clock: 0
+0       0       0
+0       0       0       0       0
+1       1       1       0       0       0       0       0
+
+Position: 1     Process ID: 2   Memory Size: 3  Arrival Time: 0 Duration: 10
+Position: 2     Process ID: 3   Memory Size: 4  Arrival Time: 1 Duration: 1
+Position: 3     Process ID: 4   Memory Size: 5  Arrival Time: 2 Duration: 5
+Position: 4     Process ID: 5   Memory Size: 1  Arrival Time: 3 Duration: 2
+Position: 5     Process ID: 6   Memory Size: 1  Arrival Time: 4 Duration: 8
+Position: 6     Process ID: 7   Memory Size: 3  Arrival Time: 4 Duration: 1
+Position: 7     Process ID: 8   Memory Size: 3  Arrival Time: 6 Duration: 9
+Position: 8     Process ID: 9   Memory Size: 2  Arrival Time: 10        Duration: 4
+Position: 9     Process ID: 10  Memory Size: 1  Arrival Time: 10        Duration: 3
+
+Clock: 0
+2       2       2
+0       0       0       0       0
+1       1       1       0       0       0       0       0
+
+Position: 1     Process ID: 3   Memory Size: 4  Arrival Time: 1 Duration: 1
+Position: 2     Process ID: 4   Memory Size: 5  Arrival Time: 2 Duration: 5
+Position: 3     Process ID: 5   Memory Size: 1  Arrival Time: 3 Duration: 2
+Position: 4     Process ID: 6   Memory Size: 1  Arrival Time: 4 Duration: 8
+Position: 5     Process ID: 7   Memory Size: 3  Arrival Time: 4 Duration: 1
+Position: 6     Process ID: 8   Memory Size: 3  Arrival Time: 6 Duration: 9
+Position: 7     Process ID: 9   Memory Size: 2  Arrival Time: 10        Duration: 4
+Position: 8     Process ID: 10  Memory Size: 1  Arrival Time: 10        Duration: 3
+
+Clock: 1
+2       2       2
+3       3       3       3       0
+1       1       1       0       0       0       0       0
+
+Position: 1     Process ID: 4   Memory Size: 5  Arrival Time: 2 Duration: 5
+Position: 2     Process ID: 5   Memory Size: 1  Arrival Time: 3 Duration: 2
+Position: 3     Process ID: 6   Memory Size: 1  Arrival Time: 4 Duration: 8
+Position: 4     Process ID: 7   Memory Size: 3  Arrival Time: 4 Duration: 1
+Position: 5     Process ID: 8   Memory Size: 3  Arrival Time: 6 Duration: 9
+Position: 6     Process ID: 9   Memory Size: 2  Arrival Time: 10        Duration: 4
+Position: 7     Process ID: 10  Memory Size: 1  Arrival Time: 10        Duration: 3
+
+Clock: 2
+2       2       2
+4       4       4       4       4
+0       0       0       0       0       0       0       0
+
+Position: 1     Process ID: 5   Memory Size: 1  Arrival Time: 3 Duration: 2
+Position: 2     Process ID: 6   Memory Size: 1  Arrival Time: 4 Duration: 8
+Position: 3     Process ID: 7   Memory Size: 3  Arrival Time: 4 Duration: 1
+Position: 4     Process ID: 8   Memory Size: 3  Arrival Time: 6 Duration: 9
+Position: 5     Process ID: 9   Memory Size: 2  Arrival Time: 10        Duration: 4
+Position: 6     Process ID: 10  Memory Size: 1  Arrival Time: 10        Duration: 3
+
+Clock: 3
+2       2       2
+4       4       4       4       4
+5       0       0       0       0       0       0       0
+
+Position: 1     Process ID: 6   Memory Size: 1  Arrival Time: 4 Duration: 8
+Position: 2     Process ID: 7   Memory Size: 3  Arrival Time: 4 Duration: 1
+Position: 3     Process ID: 8   Memory Size: 3  Arrival Time: 6 Duration: 9
+Position: 4     Process ID: 9   Memory Size: 2  Arrival Time: 10        Duration: 4
+Position: 5     Process ID: 10  Memory Size: 1  Arrival Time: 10        Duration: 3
+
+There was not a large enough empty block at time 4 to accommodate process 6. Program ending because of fragmentation.
+Press any key to continue . . .

@@ -53,6 +53,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="data\BF_fail.txt" />
+    <Content Include="data\BF_success.txt" />
+    <Content Include="data\FF_fail.txt" />
+    <Content Include="data\FF_success.txt" />
+    <Content Include="data\OperatingSystemInput.txt" />
+    <Content Include="data\OperatingSystemInput2.txt" />
+    <Content Include="data\WF_fail.txt" />
+    <Content Include="data\WF_fail2.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

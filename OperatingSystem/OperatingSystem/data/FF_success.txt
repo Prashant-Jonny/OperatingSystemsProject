@@ -1,0 +1,73 @@
+Initializing operating system
+Total memory size: 18
+Memory allocation strategy: FirstFit
+Block sizes:    5       5       8
+
+
+Clock: 1
+1       1       1       1       1
+0       0       0       0       0
+0       0       0       0       0       0       0       0
+
+Position: 1     Process ID: 2   Memory Size: 2  Arrival Time: 1 Duration: 2
+Position: 2     Process ID: 3   Memory Size: 4  Arrival Time: 2 Duration: 3
+Position: 3     Process ID: 4   Memory Size: 6  Arrival Time: 2 Duration: 4
+Position: 4     Process ID: 5   Memory Size: 5  Arrival Time: 3 Duration: 1
+Position: 5     Process ID: 6   Memory Size: 5  Arrival Time: 5 Duration: 1
+Position: 6     Process ID: 7   Memory Size: 2  Arrival Time: 5 Duration: 1
+
+Clock: 1
+1       1       1       1       1
+2       2       0       0       0
+0       0       0       0       0       0       0       0
+
+Position: 1     Process ID: 3   Memory Size: 4  Arrival Time: 2 Duration: 3
+Position: 2     Process ID: 4   Memory Size: 6  Arrival Time: 2 Duration: 4
+Position: 3     Process ID: 5   Memory Size: 5  Arrival Time: 3 Duration: 1
+Position: 4     Process ID: 6   Memory Size: 5  Arrival Time: 5 Duration: 1
+Position: 5     Process ID: 7   Memory Size: 2  Arrival Time: 5 Duration: 1
+
+Clock: 2
+3       3       3       3       0
+2       2       0       0       0
+0       0       0       0       0       0       0       0
+
+Position: 1     Process ID: 4   Memory Size: 6  Arrival Time: 2 Duration: 4
+Position: 2     Process ID: 5   Memory Size: 5  Arrival Time: 3 Duration: 1
+Position: 3     Process ID: 6   Memory Size: 5  Arrival Time: 5 Duration: 1
+Position: 4     Process ID: 7   Memory Size: 2  Arrival Time: 5 Duration: 1
+
+Clock: 2
+3       3       3       3       0
+2       2       0       0       0
+4       4       4       4       4       4       0       0
+
+Position: 1     Process ID: 5   Memory Size: 5  Arrival Time: 3 Duration: 1
+Position: 2     Process ID: 6   Memory Size: 5  Arrival Time: 5 Duration: 1
+Position: 3     Process ID: 7   Memory Size: 2  Arrival Time: 5 Duration: 1
+
+Clock: 3
+3       3       3       3       0
+5       5       5       5       5
+4       4       4       4       4       4       0       0
+
+Position: 1     Process ID: 6   Memory Size: 5  Arrival Time: 5 Duration: 1
+Position: 2     Process ID: 7   Memory Size: 2  Arrival Time: 5 Duration: 1
+
+Clock: 5
+6       6       6       6       6
+0       0       0       0       0
+4       4       4       4       4       4       0       0
+
+Position: 1     Process ID: 7   Memory Size: 2  Arrival Time: 5 Duration: 1
+
+Clock: 5
+6       6       6       6       6
+7       7       0       0       0
+4       4       4       4       4       4       0       0
+
+
+----------------------------------
+
+All processes have been allocated memory. Final clock value: 5
+Press any key to continue . . .
